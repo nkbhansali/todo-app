@@ -1,8 +1,27 @@
 const todoForm = document.getElementById("todo-form");
 const todoInput = document.getElementById("todo-input");
 const todoList = document.getElementById("todo-list");
+const themeToggle = document.getElementById("theme-toggle");
 
 let todos = [];
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
+    themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+}
+
+function initTheme() {
+    const saved = localStorage.getItem("theme") || "light";
+    applyTheme(saved);
+}
+
+themeToggle.addEventListener("click", () => {
+    const current = document.documentElement.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    applyTheme(next);
+});
 
 function renderTodos() {
     todoList.innerHTML = "";
@@ -64,4 +83,5 @@ todoForm.addEventListener("submit", (event) => {
     renderTodos();
 });
 
+initTheme();
 renderTodos();
