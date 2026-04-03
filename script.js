@@ -60,8 +60,11 @@ function renderTodos() {
         deleteButton.type = "button";
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", () => {
-            todos.splice(index, 1);
-            renderTodos();
+            listItem.classList.add("removing");
+            listItem.addEventListener("animationend", () => {
+                todos.splice(index, 1);
+                renderTodos();
+            }, { once: true });
         });
 
         listItem.append(completeCheckbox, textSpan, deleteButton);
